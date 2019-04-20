@@ -1,0 +1,32 @@
+{
+  "name": "guess-runtime",
+  "version": "0.0.0",
+  "description": "Runtime for Guess.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mgechev/guess-runtime.git"
+  },
+  "keywords": [
+    "Guess.js",
+    "guess",
+    "predictive",
+    "prefetching"
+  ],
+  "author": "Minko Gechev <mgechev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mgechev/guess-runtime/issues"
+  },
+  "homepage": "https://github.com/mgechev/guess-runtime#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.4"
+  }
+}
