@@ -1,5 +1,5 @@
 import { Model, Prediction } from './model';
-import { Hash } from './prefix-map';
+import { Hash, PrefixMap } from './prefix-map';
 
 let c = 0;
 let map: { [key: string]: string } = {};
@@ -11,7 +11,12 @@ export const hash: Hash<Prediction> = (value: Prediction) => {
 };
 
 export class Markov implements Model {
+  constructor(private map: PrefixMap<Prediction>) {}
+
   predict(path: string | string[]): Prediction[] {
-    return [];
+    if (Array.isArray(path)) {
+      throw new Error('The Markov model does not support path sequence');
+    }
+    return this.map.find(path);
   }
 }

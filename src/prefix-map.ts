@@ -35,14 +35,12 @@ export class PrefixMap<V> {
 
   insert(str: string, value: V) {
     this.map[this.hash(value)] = value;
-    const existing = this.trie.find(str);
-    if (existing) existing.push(this.hash(value));
-    else this.trie.insert(str, [this.hash(value)]);
+    this.trie.insert(str, [this.hash(value)]);
   }
 
-  find(str: string): V[] {
-    const res = this.trie.find(str);
+  find(query: string): V[] {
+    const res = this.trie.find(query);
     if (!res) return [];
-    return res.map(r => this.map[r]);
+    return Array.prototype.concat.apply([], res.map(r => r.map(k => this.map[k])));
   }
 }

@@ -4,7 +4,7 @@ const trieValue: unique symbol = Symbol('value');
 
 export interface TrieStore<V> {
   [key: string]: TrieStore<V>;
-  [trieValue]?: V;
+  [trieValue]?: V[];
 }
 
 export class Trie<V> {
@@ -20,16 +20,17 @@ export class Trie<V> {
       current[part] = current[part] || {};
       current = current[part];
     }
-    current[trieValue] = value;
+    if (!current[trieValue]) current[trieValue] = [];
+    current[trieValue].push(value);
   }
 
-  find(key: string): V | undefined {
-    const parts = this.splitter(key);
+  find(query: string): V[] | undefined {
+    const parts = this.splitter(query);
     let current = this.store;
     while (parts.length && current) {
       current = current[parts.shift()];
     }
     if (current) return current[trieValue];
-    return undefined;
+    return [];
   }
 }
