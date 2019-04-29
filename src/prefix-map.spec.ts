@@ -11,6 +11,12 @@ describe('splitter', () => {
     expect(splitter('/a/b')).toEqual(['a', 'b']);
   });
 
+  it('should return same result with and without heading slash', () => {
+    expect(splitter('/a/b')).toEqual(splitter('a/b'));
+    expect(splitter('/a')).toEqual(splitter('a'));
+    expect(splitter('/')).toEqual(splitter(''));
+  });
+
   it('should split URLs with query params', () => {
     expect(splitter('/a/b?foo')).toEqual(['a', 'b?foo']);
   });

@@ -2,19 +2,33 @@ import { Splitter } from './prefix-map';
 
 const trieValue: unique symbol = Symbol('value');
 
-export interface TrieStore<V> {
-  [key: string]: TrieStore<V>;
+export interface TrieNode<V> {
+  [key: string]: TrieNode<V>;
   [trieValue]?: V[];
 }
 
+const Wildcard = '*';
+
+const find = <V>(query: string[], i: number, node: TrieNode<V> | undefined): V[] | undefined => {
+  if (!node) return [];
+  if (i >= query.length) return node[trieValue];
+  const c = query[i++];
+  if (c === Wildcard) {
+    let result = [];
+    for (let key in node) result = result.concat(find(query, i, node[key]));
+    return result;
+  }
+  return find(query, i, node[c]);
+};
+
 export class Trie<V> {
-  private store: TrieStore<V> = {};
+  private node: TrieNode<V> = {};
 
   constructor(private splitter: Splitter) {}
 
   insert(key: string, value: V) {
     const parts = this.splitter(key);
-    let current = this.store;
+    let current = this.node;
     while (parts.length) {
       const part = parts.shift();
       current[part] = current[part] || {};
@@ -24,13 +38,7 @@ export class Trie<V> {
     current[trieValue].push(value);
   }
 
-  find(query: string): V[] | undefined {
-    const parts = this.splitter(query);
-    let current = this.store;
-    while (parts.length && current) {
-      current = current[parts.shift()];
-    }
-    if (current) return current[trieValue];
-    return [];
+  find(query: string): V[] {
+    return find<V>(this.splitter(query), 0, this.node) || [];
   }
 }
