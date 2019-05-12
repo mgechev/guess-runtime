@@ -34,7 +34,7 @@ describe('Trie', () => {
     trie.insert('/foo/bar/baz', '41');
     trie.insert('/foo/qux/baz', '42');
     trie.insert('/foo/baz/baz', '43');
-    expect(trie.find('foo/*/baz')).toEqual(['41', '42', '43']);
+    expect(trie.find('foo/:p/baz')).toEqual(['41', '42', '43']);
   });
 
   it('should understand multiple wildcards', () => {
@@ -42,7 +42,7 @@ describe('Trie', () => {
     trie.insert('/foo/bar/baz', '41');
     trie.insert('/foo/qux/baz', '42');
     trie.insert('/foo/baz/qux', '43');
-    expect(trie.find('foo/*/*')).toEqual(['41', '42', '43']);
+    expect(trie.find('foo/:p/:id')).toEqual(['41', '42', '43']);
   });
 
   it('should understand wildcards but return empty on no match', () => {
@@ -50,6 +50,6 @@ describe('Trie', () => {
     trie.insert('/foo/bar/baz', '41');
     trie.insert('/foo/qux/baz', '42');
     trie.insert('/foo/baz/qux', '43');
-    expect(trie.find('*/*/var')).toEqual([]);
+    expect(trie.find(':id/:c/var')).toEqual([]);
   });
 });

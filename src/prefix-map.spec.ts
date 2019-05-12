@@ -1,4 +1,4 @@
-import { PrefixMap, splitter, SeqHash } from './prefix-map';
+import { PrefixMap, splitter } from './prefix-map';
 import { Prediction } from './model';
 import { hash } from './markov';
 

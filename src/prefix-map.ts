@@ -10,26 +10,15 @@ export const splitter: Splitter = (key: string) => {
   return result;
 };
 
-export class SeqHash {
-  private static map: { [key: string]: string } = {};
-  private static counter = 0;
-  constructor(public url: string, public chance: number) {}
-
-  hash() {
-    if (SeqHash.map[this.url]) return SeqHash.map[this.url];
-    const val = (SeqHash.counter++).toString();
-    SeqHash.map[this.url] = val;
-    return val;
-  }
-}
-
 export interface Hash<V> {
   (value: V): string;
 }
 
 export class PrefixMap<V> {
-  private map: { [key: string]: V } = {};
-  private trie = new Trie<string[]>(splitter);
+  // Protected so that it does not get
+  // mangled by an aggressive minifier.
+  protected map: { [key: string]: V } = {};
+  protected trie = new Trie<string[]>(splitter);
 
   constructor(private hash: Hash<V>) {}
 
